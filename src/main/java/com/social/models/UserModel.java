@@ -20,17 +20,20 @@ public class UserModel {
     private List<UUID> followers;
     private List<UUID> following;
 
+    @OneToMany
+    private List<PostModel> saved;
+
     public UserModel(){
 
     }
 
-    public UserModel(UUID id, String name, String email, String password, List<UUID> followers, List<UUID> following) {
-        this.id = id;
+    public UserModel(String name, String email, String password, List<UUID> followers, List<UUID> following, List<PostModel> saved) {
         this.name = name;
         this.email = email;
         this.password = password;
         this.followers = followers;
         this.following = following;
+        this.saved = saved;
     }
 
     public UUID getId() {
@@ -79,5 +82,13 @@ public class UserModel {
 
     public void setFollowing(List<UUID> following) {
         this.following = following;
+    }
+
+    public List<PostModel> getSaved() {
+        return saved;
+    }
+
+    public void setSaved(List<PostModel> saved) {
+        this.saved = saved;
     }
 }

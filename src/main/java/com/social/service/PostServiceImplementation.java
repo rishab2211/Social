@@ -3,6 +3,7 @@ package com.social.service;
 import com.social.models.PostModel;
 import com.social.models.UserModel;
 import com.social.repository.PostRepository;
+import com.social.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +17,9 @@ public class PostServiceImplementation implements PostService{
 
     @Autowired
     PostRepository postRepository;
+
+    @Autowired
+    UserRepository userRepository;
 
     @Autowired
     UserService userService;
@@ -90,7 +94,7 @@ public class PostServiceImplementation implements PostService{
 
 
 
-        return postRepository.save(post);
+        return userRepository.save(user);
     }
 
     @Override

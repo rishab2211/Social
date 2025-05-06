@@ -20,7 +20,7 @@ public class UserModel {
     private List<UUID> followers;
     private List<UUID> following;
 
-    @OneToMany
+    @ManyToMany
     private List<PostModel> saved;
 
     public UserModel(){

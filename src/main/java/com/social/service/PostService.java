@@ -1,6 +1,7 @@
 package com.social.service;
 
 import com.social.models.PostModel;
+import com.social.models.UserModel;
 
 import java.util.List;
 import java.util.UUID;

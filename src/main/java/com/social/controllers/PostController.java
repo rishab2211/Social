@@ -1,6 +1,7 @@
 package com.social.controllers;
 
 import com.social.models.PostModel;
+import com.social.models.UserModel;
 import com.social.response.ApiResponse;
 import com.social.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,7 +61,7 @@ public class PostController {
     }
 
 
-    @PostMapping("/posts/save/{postId}/user/{userId}")
+    @PutMapping("/posts/save/{postId}/user/{userId}")
     public ResponseEntity<PostModel> savePost(@PathVariable UUID postId, @PathVariable UUID userId) throws Exception {
 
         PostModel postSaved = postService.savedPost(postId, userId);
@@ -69,7 +70,7 @@ public class PostController {
     }
 
 
-    @PostMapping("/posts/like/{postId}/user/{userId}")
+    @PutMapping("/posts/like/{postId}/user/{userId}")
     public ResponseEntity<PostModel> likePost(@PathVariable UUID postId, @PathVariable UUID userId) throws Exception {
 
         PostModel postSaved = postService.likePost(postId, userId);

@@ -19,7 +19,7 @@ public class PostController {
     @Autowired
     PostService postService;
 
-    @PostMapping("/posts/user/{userId}")
+    @PostMapping("/api/posts/user/{userId}")
     public ResponseEntity<PostModel> createPost(@RequestBody PostModel post,@PathVariable UUID userId) throws Exception {
 
         PostModel postCreated = postService.createNewPost(post,userId);
@@ -28,7 +28,7 @@ public class PostController {
     }
 
 
-    @DeleteMapping("/posts/user/{userId}/delete/{postId}")
+    @DeleteMapping("/api/posts/user/{userId}/delete/{postId}")
     public ResponseEntity<ApiResponse> deletePost(@PathVariable UUID postId,@PathVariable UUID userId) throws Exception {
          String message = postService.deletePost(postId, userId);
 
@@ -36,7 +36,7 @@ public class PostController {
          return new ResponseEntity<ApiResponse>(response, HttpStatus.OK);
     }
 
-    @GetMapping("/posts/{postId}")
+    @GetMapping("/api/posts/{postId}")
     public ResponseEntity<PostModel> findPostByIdHandler(@PathVariable UUID postId) throws Exception {
 
         PostModel post = postService.findPostById(postId);
@@ -44,7 +44,7 @@ public class PostController {
         return new ResponseEntity<PostModel>(post, HttpStatus.ACCEPTED);
     }
 
-    @GetMapping("/posts/user/bulk/{userId}")
+    @GetMapping("/api/posts/user/bulk/{userId}")
     public ResponseEntity<List<PostModel>> findPostsByUserId(@PathVariable UUID userId){
 
         List<PostModel> posts = postService.findPostByUserId(userId);
@@ -52,7 +52,7 @@ public class PostController {
         return new ResponseEntity<List<PostModel>>(posts, HttpStatus.OK);
     }
 
-    @GetMapping("/posts")
+    @GetMapping("/api/posts")
     public ResponseEntity<List<PostModel>> findAllPost(){
 
         List<PostModel> posts = postService.findAllPost();
@@ -61,7 +61,7 @@ public class PostController {
     }
 
 
-    @PutMapping("/posts/save/{postId}/user/{userId}")
+    @PutMapping("/api/posts/save/{postId}/user/{userId}")
     public ResponseEntity<PostModel> savePost(@PathVariable UUID postId, @PathVariable UUID userId) throws Exception {
 
         PostModel postSaved = postService.savedPost(postId, userId);
@@ -70,16 +70,12 @@ public class PostController {
     }
 
 
-    @PutMapping("/posts/like/{postId}/user/{userId}")
+    @PutMapping("/api/posts/like/{postId}/user/{userId}")
     public ResponseEntity<PostModel> likePost(@PathVariable UUID postId, @PathVariable UUID userId) throws Exception {
 
         PostModel postSaved = postService.likePost(postId, userId);
 
         return new ResponseEntity<PostModel>(postSaved, HttpStatus.ACCEPTED);
     }
-
-
-
-
 
 }

@@ -94,7 +94,7 @@ public class PostServiceImplementation implements PostService{
 
 
 
-        return userRepository.save(user);
+        return postRepository.save(post);
     }
 
     @Override

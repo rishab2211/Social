@@ -11,7 +11,7 @@ public class HomeController {
     return "This is home page backend response";
 }
 
-@GetMapping("/home")
+@GetMapping("/api/hello")
     public String homeController2(){
     return "Testing routing witn spring-boot-java";
 }

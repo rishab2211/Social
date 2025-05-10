@@ -29,14 +29,14 @@ public class UserController {
         return  createdUser;
     }
 
-    @GetMapping("/users")
+    @GetMapping("/api/users")
     public List<UserModel> getAllUsers() {
         List<UserModel> allUsers = userRepository.findAll();
 
         return allUsers;
     }
 
-    @GetMapping("/users/{id}")
+    @GetMapping("/api/users/{id}")
     public UserModel getUserById(@PathVariable UUID id) throws  Exception  {
 
         UserModel userFound = userService.findUserById(id);
@@ -45,14 +45,14 @@ public class UserController {
 
     }
 
-    @PutMapping("/users/{user1}/follow/{user2}")
+    @PutMapping("/api/users/{user1}/follow/{user2}")
     public UserModel followUser(@PathVariable UUID user1, @PathVariable UUID user2) throws  Exception{
         UserModel followingUser = userService.followUser(user1,user2);
 
         return followingUser;
     }
 
-    @GetMapping("/users/email/{email}")
+    @GetMapping("/api/users/email/{email}")
     public UserModel getUserByEmail(@PathVariable String email) throws  Exception  {
 
         Optional<UserModel> userFound = userRepository.findByEmail(email);
@@ -63,7 +63,7 @@ public class UserController {
 
 
 
-    @PutMapping("/users/{id}")
+    @PutMapping("/api/users/{id}")
     public UserModel alterUser(@PathVariable UUID id, @RequestBody UserModel user) throws  Exception{
 
         UserModel updatedUser = userService.updateUser(user, id);
@@ -71,7 +71,7 @@ public class UserController {
         return updatedUser;
     }
 
-    @GetMapping("/users/search")
+    @GetMapping("/api/users/search")
     public List<UserModel> searchUser(@RequestParam("query") String query){
 
         List<UserModel> users = userService.searchUser((query));
@@ -80,7 +80,7 @@ public class UserController {
     }
 
 
-    @DeleteMapping("/users/{id}")
+    @DeleteMapping("/api/users/{id}")
     public String deleteUser(@PathVariable UUID id) throws Exception{
 
         Optional<UserModel> userToDelete = userRepository.findById(id);

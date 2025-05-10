@@ -3,8 +3,6 @@ package com.social.controllers;
 import com.social.models.UserModel;
 import com.social.repository.UserRepository;
 import com.social.service.UserService;
-import com.social.service.UserServiceImplementation;
-import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,12 +20,7 @@ public class UserController {
     @Autowired
     UserService userService;
 
-    @PostMapping("/users")
-    public UserModel createUser(@RequestBody UserModel user){
 
-        UserModel createdUser = userService.registerUser(user);
-        return  createdUser;
-    }
 
     @GetMapping("/api/users")
     public List<UserModel> getAllUsers() {

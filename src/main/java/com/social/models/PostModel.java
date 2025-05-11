@@ -3,6 +3,7 @@ package com.social.models;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -28,28 +29,27 @@ public class PostModel {
 
     private LocalDateTime createdAt;
 
+    @OneToMany
+    private List<CommentModel> comments= new ArrayList<>();
+
 
     public PostModel(){
 
     }
 
 
-    public PostModel(String caption, String imageUrl, String videoUrl, UserModel user, List<UserModel> liked, LocalDateTime createdAt) {
+    public PostModel(String caption, String imageUrl, String videoUrl, UserModel user, List<UserModel> liked, LocalDateTime createdAt, List<CommentModel> comments) {
         this.caption = caption;
         this.imageUrl = imageUrl;
         this.videoUrl = videoUrl;
         this.user = user;
         this.liked = liked;
-
         this.createdAt = createdAt;
+        this.comments = comments;
     }
 
     public UUID getId() {
         return id;
-    }
-
-    public void setId(UUID id) {
-        this.id = id;
     }
 
     public String getCaption() {
@@ -102,4 +102,11 @@ public class PostModel {
     }
 
 
+    public List<CommentModel> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<CommentModel> comments) {
+        this.comments = comments;
+    }
 }

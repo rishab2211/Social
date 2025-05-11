@@ -44,15 +44,15 @@ public class PostController {
         return new ResponseEntity<PostModel>(post, HttpStatus.ACCEPTED);
     }
 
-    @GetMapping("/api/posts/user/bulk")
-    public ResponseEntity<List<PostModel>> findPostsByUserId(@RequestHeader("Authorization") String jwt) throws Exception{
+    @GetMapping("/api/posts/user")
+    public ResponseEntity<List<PostModel>> findPostsByUserToken(@RequestHeader("Authorization") String jwt) throws Exception{
 
         List<PostModel> posts = postService.findPostByUserToken(jwt);
 
         return new ResponseEntity<List<PostModel>>(posts, HttpStatus.OK);
     }
 
-    @GetMapping("/api/posts")
+    @GetMapping("/api/posts/bulk")
     public ResponseEntity<List<PostModel>> findAllPost(){
 
         List<PostModel> posts = postService.findAllPost();

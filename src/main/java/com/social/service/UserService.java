@@ -14,9 +14,11 @@ public interface UserService {
 
     public UserModel findUserByEmail(String email) throws  Exception;
 
-    public UserModel followUser(UUID userId1, UUID userId2) throws Exception;
+    public UserModel followUser(String jwt, UUID userId2) throws Exception;
 
     public UserModel updateUser(UserModel user, UUID id) throws Exception;
 
     public List<UserModel> searchUser(String query);
+
+    public UserModel findUserByJwt(String jwt) throws Exception;
 }

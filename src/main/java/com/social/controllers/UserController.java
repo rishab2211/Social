@@ -38,9 +38,9 @@ public class UserController {
 
     }
 
-    @PutMapping("/api/users/{user1}/follow/{user2}")
-    public UserModel followUser(@PathVariable UUID user1, @PathVariable UUID user2) throws  Exception{
-        UserModel followingUser = userService.followUser(user1,user2);
+    @PutMapping("/api/users/follow/{user2}")
+    public UserModel followUser(@RequestHeader("Authorization") String jwt, @PathVariable UUID user2) throws  Exception{
+        UserModel followingUser = userService.followUser(jwt,user2);
 
         return followingUser;
     }
@@ -55,15 +55,6 @@ public class UserController {
     }
 
 
-
-    @PutMapping("/api/users/{id}")
-    public UserModel alterUser(@PathVariable UUID id, @RequestBody UserModel user) throws  Exception{
-
-        UserModel updatedUser = userService.updateUser(user, id);
-
-        return updatedUser;
-    }
-
     @GetMapping("/api/users/search")
     public List<UserModel> searchUser(@RequestParam("query") String query){
 
@@ -73,15 +64,33 @@ public class UserController {
     }
 
 
-    @DeleteMapping("/api/users/{id}")
-    public String deleteUser(@PathVariable UUID id) throws Exception{
+    @GetMapping("/api/users/profile")
+    public UserModel getUserFromToken(@RequestHeader("Authorization") String jwt) throws Exception{
 
-        Optional<UserModel> userToDelete = userRepository.findById(id);
-        if(userToDelete.isEmpty()){
+        UserModel user = userService.findUserByJwt(jwt);
+
+        return user;
+    }
+
+    @PutMapping("/api/users")
+    public UserModel alterUser(@RequestHeader("Authorization") String jwt, @RequestBody UserModel user) throws  Exception{
+
+        UserModel reqUser = userService.findUserByJwt(jwt);
+
+        UserModel updatedUser = userService.updateUser(user, reqUser.getId());
+
+        return updatedUser;
+    }
+
+    @DeleteMapping("/api/users/{id}")
+    public String deleteUser(@RequestHeader("Authorization") String jwt) throws Exception{
+
+        UserModel userToDelete = userService.findUserByJwt(jwt);
+        if(userToDelete==null){
             throw  new Exception("User to delete does not exist in the first place");
         }
 
-        userRepository.deleteById(id);
+        userRepository.deleteById(userToDelete.getId());
 
         return "User deleted successfully!";
     }

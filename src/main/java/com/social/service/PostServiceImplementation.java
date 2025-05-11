@@ -25,7 +25,7 @@ public class PostServiceImplementation implements PostService{
     UserService userService;
 
     @Override
-    public PostModel createNewPost(PostModel post, UUID userId) throws Exception {
+    public PostModel createNewPost(PostModel post, String jwt) throws Exception {
          PostModel newPost = new PostModel();
 
          newPost.setCaption(post.getCaption());
@@ -33,7 +33,7 @@ public class PostServiceImplementation implements PostService{
          newPost.setVideoUrl(post.getVideoUrl());
          newPost.setCreatedAt(LocalDateTime.now());
 
-         newPost.setUser(userService.findUserById(userId));
+         newPost.setUser(userService.findUserByJwt(jwt));
 
 
 
@@ -43,10 +43,10 @@ public class PostServiceImplementation implements PostService{
     }
 
     @Override
-    public String deletePost(UUID postId, UUID userId) throws Exception {
+    public String deletePost(UUID postId, String jwt) throws Exception {
 
         PostModel post = findPostById(postId);
-        UserModel user = userService.findUserById(userId);
+        UserModel user = userService.findUserByJwt(jwt);
 
         if(post.getUser().getId()!=user.getId()){
             throw new Exception("Cannot delete others post");
@@ -59,8 +59,9 @@ public class PostServiceImplementation implements PostService{
     }
 
     @Override
-    public List<PostModel> findPostByUserId(UUID userId) {
-        return postRepository.findPostsById(userId);
+    public List<PostModel> findPostByUserToken(String jwt) throws Exception {
+        UserModel user = userService.findUserByJwt(jwt);
+        return postRepository.findPostsById(user.getId());
     }
 
     @Override
@@ -81,10 +82,10 @@ public class PostServiceImplementation implements PostService{
     }
 
     @Override
-    public PostModel savedPost(UUID postId, UUID userId) throws Exception {
+    public PostModel savedPost(UUID postId, String jwt) throws Exception {
 
         PostModel post = findPostById(postId);
-        UserModel user = userService.findUserById(userId);
+        UserModel user = userService.findUserByJwt(jwt);
 
         if(user.getSaved().contains(post)){
             user.getSaved().remove(post);
@@ -92,17 +93,15 @@ public class PostServiceImplementation implements PostService{
             user.getSaved().add(post);
         }
 
-
-
         return postRepository.save(post);
     }
 
     @Override
-    public PostModel likePost(UUID postId, UUID userId) throws Exception {
+    public PostModel likePost(UUID postId, String jwt) throws Exception {
 
 
         PostModel post = findPostById(postId);
-        UserModel user = userService.findUserById(userId);
+        UserModel user = userService.findUserByJwt(jwt);
 
         if(post.getLiked().contains(user)){
             post.getLiked().remove(user);

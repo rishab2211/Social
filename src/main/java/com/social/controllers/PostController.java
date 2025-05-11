@@ -19,18 +19,18 @@ public class PostController {
     @Autowired
     PostService postService;
 
-    @PostMapping("/api/posts/user/{userId}")
-    public ResponseEntity<PostModel> createPost(@RequestBody PostModel post,@PathVariable UUID userId) throws Exception {
+    @PostMapping("/api/posts/user")
+    public ResponseEntity<PostModel> createPost(@RequestBody PostModel post,@RequestHeader("Authorization") String jwt) throws Exception {
 
-        PostModel postCreated = postService.createNewPost(post,userId);
+        PostModel postCreated = postService.createNewPost(post,jwt);
 
         return new ResponseEntity<>(postCreated, HttpStatus.ACCEPTED);
     }
 
 
-    @DeleteMapping("/api/posts/user/{userId}/delete/{postId}")
-    public ResponseEntity<ApiResponse> deletePost(@PathVariable UUID postId,@PathVariable UUID userId) throws Exception {
-         String message = postService.deletePost(postId, userId);
+    @DeleteMapping("/api/posts/user/delete/{postId}")
+    public ResponseEntity<ApiResponse> deletePost(@PathVariable UUID postId,@RequestHeader("Authorization") String jwt) throws Exception {
+         String message = postService.deletePost(postId, jwt);
 
          ApiResponse response = new ApiResponse(message, true);
          return new ResponseEntity<ApiResponse>(response, HttpStatus.OK);
@@ -44,10 +44,10 @@ public class PostController {
         return new ResponseEntity<PostModel>(post, HttpStatus.ACCEPTED);
     }
 
-    @GetMapping("/api/posts/user/bulk/{userId}")
-    public ResponseEntity<List<PostModel>> findPostsByUserId(@PathVariable UUID userId){
+    @GetMapping("/api/posts/user/bulk")
+    public ResponseEntity<List<PostModel>> findPostsByUserId(@RequestHeader("Authorization") String jwt) throws Exception{
 
-        List<PostModel> posts = postService.findPostByUserId(userId);
+        List<PostModel> posts = postService.findPostByUserToken(jwt);
 
         return new ResponseEntity<List<PostModel>>(posts, HttpStatus.OK);
     }
@@ -61,19 +61,19 @@ public class PostController {
     }
 
 
-    @PutMapping("/api/posts/save/{postId}/user/{userId}")
-    public ResponseEntity<PostModel> savePost(@PathVariable UUID postId, @PathVariable UUID userId) throws Exception {
+    @PutMapping("/api/posts/save/{postId}")
+    public ResponseEntity<PostModel> savePost(@PathVariable UUID postId, @RequestHeader("Authorization") String jwt) throws Exception {
 
-        PostModel postSaved = postService.savedPost(postId, userId);
+        PostModel postSaved = postService.savedPost(postId, jwt);
 
         return new ResponseEntity<PostModel>(postSaved, HttpStatus.ACCEPTED);
     }
 
 
-    @PutMapping("/api/posts/like/{postId}/user/{userId}")
-    public ResponseEntity<PostModel> likePost(@PathVariable UUID postId, @PathVariable UUID userId) throws Exception {
+    @PutMapping("/api/posts/like/{postId}")
+    public ResponseEntity<PostModel> likePost(@PathVariable UUID postId, @RequestHeader("Authorization") String jwt) throws Exception {
 
-        PostModel postSaved = postService.likePost(postId, userId);
+        PostModel postSaved = postService.likePost(postId, jwt);
 
         return new ResponseEntity<PostModel>(postSaved, HttpStatus.ACCEPTED);
     }

@@ -1,12 +1,10 @@
 package com.social.controllers;
 
 import com.social.models.PostModel;
-import com.social.models.UserModel;
 import com.social.response.ApiResponse;
 import com.social.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

@@ -24,14 +24,18 @@ public class ChatModel {
 
     private LocalDateTime timestamp;
 
+    @OneToMany(mappedBy = "chat")
+    private List<MessageModel> messages = new ArrayList<>();
+
     public ChatModel() {
     }
 
-    public ChatModel(String chat_name, String chat_image, List<UserModel> users, LocalDateTime timestamp) {
+    public ChatModel(String chat_name, String chat_image, List<UserModel> users, LocalDateTime timestamp, List<MessageModel> messages) {
         this.chat_name = chat_name;
         this.chat_image = chat_image;
         this.users = users;
         this.timestamp = timestamp;
+        this.messages = messages;
     }
 
     public UUID getId() {
@@ -69,4 +73,13 @@ public class ChatModel {
     public void setTimestamp(LocalDateTime timestamp) {
         this.timestamp = timestamp;
     }
+
+    public List<MessageModel> getMessages() {
+        return messages;
+    }
+
+    public void setMessages(List<MessageModel> messages) {
+        this.messages = messages;
+    }
+
 }

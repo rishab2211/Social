@@ -1,6 +1,7 @@
 package com.social.service;
 
 import com.social.config.JwtProvider;
+import com.social.exceptions.UserException;
 import com.social.models.UserModel;
 import com.social.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +35,7 @@ public class UserServiceImplementation implements UserService {
     }
 
     @Override
-    public UserModel findUserById(UUID userId) throws Exception{
+    public UserModel findUserById(UUID userId) throws UserException{
 
         Optional<UserModel> user = userRepository.findById(userId);
 
@@ -42,11 +43,11 @@ public class UserServiceImplementation implements UserService {
             return user.get();
         }
 
-        throw new Exception("User does not exist with the userId: "+userId);
+        throw new UserException("User does not exist with the userId: "+userId);
     }
 
     @Override
-    public UserModel findUserByEmail(String email) throws Exception{
+    public UserModel findUserByEmail(String email) throws UserException{
 
         Optional<UserModel> foundUser = userRepository.findByEmail(email);
 
@@ -54,14 +55,14 @@ public class UserServiceImplementation implements UserService {
             return foundUser.get();
         }
 
-        throw new  Exception("User does not exist with the given email id: "+email);
+        throw new UserException("User does not exist with the given email id: "+email);
 
     }
 
 
 
     @Override
-    public UserModel followUser(String jwt, UUID userId2) throws Exception {
+    public UserModel followUser(String jwt, UUID userId2) throws UserException {
 
         UserModel reqUser = findUserByJwt(jwt);
 
@@ -90,12 +91,12 @@ public class UserServiceImplementation implements UserService {
     }
 
     @Override
-    public UserModel updateUser(UserModel user, UUID id) throws Exception {
+    public UserModel updateUser(UserModel user, UUID id) throws UserException {
 
         Optional<UserModel> userToUpdate = userRepository.findById(id);
 
         if(userToUpdate.isEmpty()){
-            throw  new Exception("User does not exist with userId: "+id);
+            throw  new UserException("User does not exist with userId: "+id);
         }
 
         UserModel oldUser = userToUpdate.get();
@@ -122,13 +123,13 @@ public class UserServiceImplementation implements UserService {
     }
 
     @Override
-    public UserModel findUserByJwt(String jwt) throws Exception {
+    public UserModel findUserByJwt(String jwt) throws UserException {
         String email = JwtProvider.getEmailFromJwtToken(jwt);
 
         Optional<UserModel> user = userRepository.findByEmail(email);
 
         if(user.isEmpty()){
-            throw new Exception("Invalid Authorization token, cannot find the user");
+            throw new UserException("Invalid Authorization token, cannot find the user");
         }
 
         return user.get();

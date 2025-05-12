@@ -1,5 +1,6 @@
 package com.social.service;
 
+import com.social.exceptions.UserException;
 import com.social.models.UserModel;
 
 import java.util.List;
@@ -10,15 +11,15 @@ public interface UserService {
 
     public UserModel registerUser(UserModel user);
 
-    public UserModel findUserById(UUID userId) throws Exception;
+    public UserModel findUserById(UUID userId) throws UserException;
 
-    public UserModel findUserByEmail(String email) throws  Exception;
+    public UserModel findUserByEmail(String email) throws  UserException;
 
-    public UserModel followUser(String jwt, UUID userId2) throws Exception;
+    public UserModel followUser(String jwt, UUID userId2) throws UserException;
 
-    public UserModel updateUser(UserModel user, UUID id) throws Exception;
+    public UserModel updateUser(UserModel user, UUID id) throws UserException;
 
     public List<UserModel> searchUser(String query);
 
-    public UserModel findUserByJwt(String jwt) throws Exception;
+    public UserModel findUserByJwt(String jwt) throws UserException;
 }

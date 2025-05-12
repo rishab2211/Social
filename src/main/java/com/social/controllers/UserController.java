@@ -1,5 +1,6 @@
 package com.social.controllers;
 
+import com.social.exceptions.UserException;
 import com.social.models.UserModel;
 import com.social.repository.UserRepository;
 import com.social.service.UserService;
@@ -30,7 +31,7 @@ public class UserController {
     }
 
     @GetMapping("/api/users/{id}")
-    public UserModel getUserById(@PathVariable UUID id) throws  Exception  {
+    public UserModel getUserById(@PathVariable UUID id) throws UserException {
 
         UserModel userFound = userService.findUserById(id);
 
@@ -39,14 +40,14 @@ public class UserController {
     }
 
     @PutMapping("/api/users/follow/{user2}")
-    public UserModel followUser(@RequestHeader("Authorization") String jwt, @PathVariable UUID user2) throws  Exception{
+    public UserModel followUser(@RequestHeader("Authorization") String jwt, @PathVariable UUID user2) throws  UserException{
         UserModel followingUser = userService.followUser(jwt,user2);
 
         return followingUser;
     }
 
     @GetMapping("/api/users/email/{email}")
-    public UserModel getUserByEmail(@PathVariable String email) throws  Exception  {
+    public UserModel getUserByEmail(@PathVariable String email) throws  UserException  {
 
         Optional<UserModel> userFound = userRepository.findByEmail(email);
 
@@ -65,7 +66,7 @@ public class UserController {
 
 
     @GetMapping("/api/users/profile")
-    public UserModel getUserFromToken(@RequestHeader("Authorization") String jwt) throws Exception{
+    public UserModel getUserFromToken(@RequestHeader("Authorization") String jwt) throws UserException{
 
         UserModel user = userService.findUserByJwt(jwt);
 
@@ -73,7 +74,7 @@ public class UserController {
     }
 
     @PutMapping("/api/users")
-    public UserModel alterUser(@RequestHeader("Authorization") String jwt, @RequestBody UserModel user) throws  Exception{
+    public UserModel alterUser(@RequestHeader("Authorization") String jwt, @RequestBody UserModel user) throws  UserException{
 
         UserModel reqUser = userService.findUserByJwt(jwt);
 
@@ -83,11 +84,11 @@ public class UserController {
     }
 
     @DeleteMapping("/api/users/{id}")
-    public String deleteUser(@RequestHeader("Authorization") String jwt) throws Exception{
+    public String deleteUser(@RequestHeader("Authorization") String jwt) throws UserException{
 
         UserModel userToDelete = userService.findUserByJwt(jwt);
         if(userToDelete==null){
-            throw  new Exception("User to delete does not exist in the first place");
+            throw  new UserException("User to delete does not exist in the first place");
         }
 
         userRepository.deleteById(userToDelete.getId());
